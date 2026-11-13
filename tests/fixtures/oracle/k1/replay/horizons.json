@@ -1,0 +1,12 @@
+{
+  "a1-town-walk": {
+    "bootFrame": 2,
+    "strict": 750,
+    "pos": 750
+  },
+  "a1c-bloodmoor-fallen": {
+    "bootFrame": 2,
+    "strict": 150,
+    "pos": 209
+  }
+}

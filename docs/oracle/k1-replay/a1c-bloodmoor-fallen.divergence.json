@@ -1,0 +1,35 @@
+{
+  "scenario": "a1c-bloodmoor-fallen",
+  "bootFrame": 2,
+  "lastGoldenFrame": 2000,
+  "strictHorizon": 150,
+  "posHorizon": 209,
+  "matchedKernelFrames": 148,
+  "bootCheck": null,
+  "firstDivergence": {
+    "frame": 151,
+    "key": "gs",
+    "id": null,
+    "field": "gs",
+    "expected": [
+      2743272323,
+      1342460360
+    ],
+    "actual": [
+      2189963941,
+      588192779
+    ]
+  },
+  "firstPosDivergence": {
+    "frame": 210,
+    "key": "t0",
+    "id": 1,
+    "field": "mode",
+    "expected": 3,
+    "actual": 1
+  },
+  "unportedHit": null,
+  "context": [],
+  "goldenSha256": "8d8bda946c74066879f3047dbe839d6abbb093dba7eba2c07bfb18852eb13224",
+  "snapshotSha256": "54c47205468399a7ac5afadd71c8d62a2c3d58c4481358bf24fb4e6dc951010b"
+}
