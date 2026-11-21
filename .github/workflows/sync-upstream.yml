@@ -1,0 +1,50 @@
+name: Upstream Sync
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs daily at 00:00 UTC (08:00 Beijing Time)
+  workflow_dispatch:     # Allows manual trigger in the Actions tab
+
+jobs:
+  sync_latest_from_upstream:
+    name: Sync latest snapshot from upstream repo
+    runs-on: ubuntu-latest
+    if: ${{ github.event.repository.fork }}
+
+    steps:
+      - name: Checkout target repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Force sync upstream snapshot
+        run: |
+          git config user.name "GH Action - Upstream Sync"
+          git config user.email "action@github.com"
+
+          mkdir -p /tmp/wf_backup
+          cp -r .github/workflows/* /tmp/wf_backup/
+
+          git remote add upstream https://github.com/troytt/diablo2-web.git
+          git fetch upstream main
+
+          if [ "$(git rev-parse HEAD)" = "$(git rev-parse upstream/main)" ]; then
+            echo "Already up to date with upstream snapshot."
+            exit 0
+          fi
+
+          echo "Upstream snapshot changed. Overwriting local main with upstream/main..."
+          git reset --hard upstream/main
+
+          mkdir -p .github/workflows
+          cp -r /tmp/wf_backup/* .github/workflows/
+          git add .github/workflows
+
+          if ! git diff --cached --quiet; then
+            git commit -m "ci: retain upstream sync workflow after snapshot update"
+          fi
+
+          git push --force origin main
